@@ -327,16 +327,29 @@ class Application(Frame):
         go.join()
 
     def readEyeTrack(self, fileName):
+        f_1 = open ('original_data','w')
+        f_2 = open ('simple_mav','w')
+        f_3 = open ('exp_mav','w')
+
         with open(fileName,'r') as f:
             try:
                 contents = f.readline()
                 x_y = contents.split(',')
                 eye_x = int(float(x_y[0]))
                 eye_y = int(float(x_y[1]))
-##                self.filter_type.calculate_average(eye_x, eye_y)
+                self.filter_type.calculate_average(eye_x, eye_y)
+
 ##                self.last_eye = (self.filter_type.filtered_x, self.filter_type.filtered_y)
                 self.filter_exp.calculate_average(eye_x, eye_y)
                 self.last_eye = (self.filter_exp.filterd_x, self.filter_exp.filterd_y)
+                f_1.write(str(eye_x)+' '+str(eye_y))
+                f_2.write(str(self.filter_type.filtered_x)+' '+str(filter_type.filtered_y))
+                f_3.write(str(filter_exp.filterd_x)+' '+str(filter_exp.filterd_y))
+                f_1.close()
+                f_2.close()
+                f_3.close()
+                
+
                
             except ValueError:
                 pass

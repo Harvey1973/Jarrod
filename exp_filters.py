@@ -1,17 +1,17 @@
 import numpy
 
 class Filter(object):
-    def calculate_average(self,new_x,new_y):
+    def calculate_average(self, new_x, new_y): 
         raise NotImplementedError
 
 class ExponentialAverage(Filter):
     
-    def __init__(self,window_size):
-        self.data_x=[]
-        self.data_y=[]
+    def __init__(self, window_size) :
+        self.data_x = []
+        self.data_y = []
         self.window_size = window_size   ## window size
-        self.filtered_x_list=[]
-        self.filtered_y_list=[]
+        self.filtered_x_list = []
+        self.filtered_y_list = []
         self.filterd_x = 0.0
         self.filterd_y = 0.0
         self.data_list = [] 
