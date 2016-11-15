@@ -22,6 +22,7 @@ static const TX_STRING InteractorId = "Twilight Sparkle";
 static TX_HANDLE g_hGlobalInteractorSnapshot = TX_EMPTY_HANDLE;
 static FILE* f;
 static FILE* debug;
+static FILE* data;
 
 /*
  * Initializes g_hGlobalInteractorSnapshot with an interactor that has the Gaze Point behavior.
@@ -105,6 +106,8 @@ void OnGazeDataEvent(TX_HANDLE hGazeDataBehavior)
 	if (txGetGazePointDataEventParams(hGazeDataBehavior, &eventParams) == TX_RESULT_OK) {
 		printf("\rGaze Data: (%5.1f, %5.1f) timestamp %.0f ms", eventParams.X, eventParams.Y, eventParams.Timestamp);
 		fprintf(f, "%5.1f, %5.1f", eventParams.X, eventParams.Y);
+		fprintf(data, "%5.1f, %5.1f \n ", eventParams.X, eventParams.Y);
+
 		fseek(f, 0, SEEK_SET);
 	
 	} else {
@@ -148,6 +151,7 @@ int main(int argc, char* argv[])
 	BOOL success;
 
 	f = fopen("eyeStream.txt", "w");
+	data = fopen("OriginalData.txt", "w");
 	debug = fopen("debugEyeStream_C.txt", "w");
 
 	// initialize and enable the context that is our link to the EyeX Engine.
