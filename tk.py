@@ -345,14 +345,15 @@ class Application(Frame):
                 f_1.write(str(eye_x)+' '+str(eye_y))
                 f_2.write(str(self.filter_type.filtered_x)+' '+str(filter_type.filtered_y))
                 f_3.write(str(filter_exp.filterd_x)+' '+str(filter_exp.filterd_y))
-                f_1.close()
-                f_2.close()
-                f_3.close()
                 
+
 
                
             except ValueError:
                 pass
+        f_1.close()
+        f_2.close()
+        f_3.close()
         
 def on_mouse_move(event):
     app.last_mouse = (event.x, event.y)

@@ -12,5 +12,9 @@ simple_avg = contents_2.split()
 exp_avg = contents_3.split()
 
 plt.plot(original[0],original[1],'ro',simple_avg[0],simple_avg[1],'bo',exp_avg[0],exp_avg[1],'go')
+f_1.close()
+f_2.close()
+f_3.close()
+
 
 
