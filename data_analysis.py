@@ -24,8 +24,8 @@ x_coor = map(float,eye_x)
 y_coor = map(float,eye_y)
 sma_x = moving(x_coor,10)
 sma_y = moving(y_coor,10)
-exp_x = moving_exp(x_coor,5)
-exp_y = moving_exp(y_coor,5)
+exp_x = moving_exp(x_coor,10)
+exp_y = moving_exp(y_coor,10)
 
 
 
