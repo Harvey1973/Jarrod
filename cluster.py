@@ -258,7 +258,7 @@ def contrivedTest(numTrials, k, verbose = False):
     d2samples = genDistribution(xMean+3, xSD, yMean+1, ySD, n, 'B')
     plotSamples(d2samples,'ko')
     clusters = tryKmeans(d1samples+d2samples, k, numTrials, verbose)
-    print('Final result ')
+    print('Final result')
     for c in clusters :
         print(' ',c)
       
