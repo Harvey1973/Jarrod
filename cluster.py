@@ -18,7 +18,7 @@ class Point(object):
         #distance function is used to calculate the euclidean distance between two points
         result = 0.0 
         for i in range(self.dimensionality()):
-            result = result + (self.attrs[i]-other.attrs[i])**2   #euclidean distance formular 
+            result = result + (self.Features[i]-other.Features[i])**2   #euclidean distance formular 
         return result ** 0.5
     def getName(self):
         return self.name
