@@ -1,4 +1,5 @@
-import random , string, copy, pylab
+import random , string, copy
+import pylab
 
 class Point(object):
     def __init__(self, name, originalAttrs, normalizedAttrs = None ):
@@ -202,7 +203,65 @@ def kmeans(points, k, cutoff, pointType, maxIter = 100, toPrint = False) :
             if p.distance(c.getCentroid()) > maxDist :
                 maxDist = p.distance(c.getCentroid())
     print ('Number of iterations =' + numIter +'Max diameter ' + maxDist)     
-    return clusters , maxDist      
+    return clusters     
+##find the best k values 
+def dissimilarity(clusters):
+    totDist = 0.0 
+    for c in clusters :
+        totdist += c.variability()
+    return totdist
+
+def tryKmeans(points, numClusters, numTrials, verbose = False):
+    """call k means multiple times and return the result with least dissimilarity"""
+    best = kmeans(points, numClusters, verbose)
+    minDissimilarity = dissimilarity(best)
+    trial = 1 
+    while trial < numTrials :
+        try :
+            clusters = kmeans(points, numClusters, verbose)
+        except ValueError:
+            continue
+        currDissimilarity = dissimilarity(clusters)
+        if currDissimilarity < minDissimilarity:
+            best = clusters
+            minDissimilarity = currDissimilarity
+        trial += 1
+    return best 
+
+
+
+## generate some randomly distributed points for testing 
+def genDistribution (xMean, xSD, yMean, ySD, n, namePrefix) :
+    samples = []
+    for s in range(n) :
+        x = random.gauss(xMean, xSD)
+        y = random.gauss(yMean, ySD)
+        samples.append(Point(namePrefix+str(s)),[x,y])
+    return samples
+def plotSamples(samples, marker):
+    xVals, yVals =[], []
+    for s in samples :
+        x = s.getAttrs()[0]
+        y = s.getAttrs()[1]
+        pylab.annotate(s.getName(),xy = (x,y), xytext = (x+0.13, y-0.07), fontsize = 'x-large')
+        xVals.append(x)
+        yVals.append(y)
+    pylab.plot(xVals, yVals, marker)
+def contrivedTest(numTrials, k, verbose = False):
+    xMean = 3 
+    xSD = 1 
+    yMean = 5
+    ySD = 1 
+    n = 10 
+    d1samples = genDistribution(xMean, xSD, yMean, ySD, n, 'A')
+    plotSamples(d1samples,'k^')
+    d2samples = genDistribution(xMean+3, xSD, yMean+1, ySD, n, 'B')
+    plotSamples = (d2samples,'ko')
+    clusters = trykmeans(d1samples+d2samples, k, numTrials, verbose)
+    print('Final result')
+    for c in clusters :
+        print(' ',c)
+      
          
 
 
