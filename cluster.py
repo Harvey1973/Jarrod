@@ -23,7 +23,7 @@ class Point(object):
     def getName(self):
         return self.name
     def toStr(self):
-        return self.name +str(self.attrs)
+        return self.name +str(self.Features)
     def __str__(self):
         return self.name + ':' + str(self.Features) + ':' + str(self.label)
 
