@@ -1,11 +1,11 @@
 import random , string, copy, pylab
 
 class Point(object):
-    def __init__(self, name, originalAttrs, normalizedAttrs = None )
+    def __init__(self, name, originalAttrs, normalizedAttrs = None ):
         """normalizedAttrs and originalAttrs are both lists"""
         self.name = name 
         self.unNormalized = originalAttrs
-        if normalizedAttrs = None :
+        if normalizedAttrs == None :
             self.attrs = originalAttrs 
         else :
             self.attrs = normalizedAttrs
@@ -29,7 +29,7 @@ class Point(object):
         return self.name
 
 
-  class Cluster(object) :
+class Cluster(object) :
       """points are list of object of type Point defined above , they are the points in a cluster """
       def __init__(self, points, pointType):
           self.points = points 
@@ -63,7 +63,7 @@ class Point(object):
           #make sure there are actual points in a cluster 
           if(len(points)>0):
               self.centroid = self.computeCentroid()
-              retun oldcentroid.distance(self.centroid)
+              return oldcentroid.distance(self.centroid)
           else :
               return 0.0 
       def members(self) :
@@ -89,9 +89,9 @@ class Point(object):
          for p in name :
              result = result + p + ', '
          return result[:-2]
-     def getCentroid(self):
+      def getCentroid(self):
          return self.centroid
-     def computeCentroid(self):
+      def computeCentroid(self):
          dim = self.points[0].dimensionality()
          totoalVals = pylab.array([0.0]*dim)
          for p in self.points :
@@ -100,7 +100,7 @@ class Point(object):
          return centroid 
 
  ## clusterSet is used to hierachical clustering         
- class ClusterSet(object) :
+class ClusterSet(object) :
      """set of cluster"""
      def __init__(self,pointType):
          self.members = []
@@ -128,13 +128,13 @@ class Point(object):
          toMerge = (self.members[0],self.members[1])
          for c1 in self.members :
              for c2 in self.members :
-                 if c1 = c2 :
+                 if c1 == c2 :
                      continue 
                  if metric (c1,c2) < minDistance :
                      minDistance = metric (c1, c2)
                      toMerge = (c1, c2)
-        return toMerge
-     def MergeOne(self, metric, toPrint = False )
+         return toMerge
+     def MergeOne(self, metric, toPrint = False ):
          """merge 2 cluster using findClosest"""
          if len(self.members ) == 1 :
              return None 
@@ -149,15 +149,15 @@ class Point(object):
              print (' '+str(toMerge[1]))
          self.mergeCluster(toMerge[0],toMerge[1])
          ##return the merged 2 clusters 
-      def mergeN(self, metric, numClusters = 1, history = [], toPrint = False):
+     def mergeN(self, metric, numClusters = 1, history = [], toPrint = False): 
           assert numClusters >=1 
           while len(self.members)> numClusters :
               merged = self.MergeOne(metric, toPrint)
               history.append(merged)
           return history 
-      def numClusters(self)
+     def numClusters(self):
           return len(self.members) + 1
-      def __str__(self) :
+     def __str__(self) :
           result = ''
           for c in self.members :
               result = result + str(c) + '\n'
