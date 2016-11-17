@@ -203,7 +203,7 @@ def kmeans(points, k, verbose = False) :
               for c in clusters :
                   print(c)
               print('')     
-     return clusters     
+    return clusters     
 ##find the best k values 
 def dissimilarity(clusters):
     totDist = 0.0 
@@ -241,8 +241,8 @@ def genDistribution (xMean, xSD, yMean, ySD, n, namePrefix) :
 def plotSamples(samples, marker):
     xVals, yVals =[], []
     for s in samples :
-        x = s.getAttrs()[0]
-        y = s.getAttrs()[1]
+        x = s.getFeatures()[0]
+        y = s.getFeatures()[1]
         pylab.annotate(s.getName(),xy = (x,y), xytext = (x+0.13, y-0.07), fontsize = 'x-large')
         xVals.append(x)
         yVals.append(y)
