@@ -213,7 +213,7 @@ def dissimilarity(clusters):
 
 def tryKmeans(points, numClusters, numTrials, verbose = False):
     """call k means multiple times and return the result with least dissimilarity"""
-    best = kmeans(points, numClusters, verbose)
+    best = kmeans(points, numClusters, 0, 'coor', verbose)
     minDissimilarity = dissimilarity(best)
     trial = 1 
     while trial < numTrials :
@@ -236,7 +236,7 @@ def genDistribution (xMean, xSD, yMean, ySD, n, namePrefix) :
     for s in range(n) :
         x = random.gauss(xMean, xSD)
         y = random.gauss(yMean, ySD)
-        samples.append(Point(namePrefix+str(s)),[x,y])
+        samples.append(Point(namePrefix+str(s),[x,y],None))
     return samples
 def plotSamples(samples, marker):
     xVals, yVals =[], []
@@ -256,8 +256,8 @@ def contrivedTest(numTrials, k, verbose = False):
     d1samples = genDistribution(xMean, xSD, yMean, ySD, n, 'A')
     plotSamples(d1samples,'k^')
     d2samples = genDistribution(xMean+3, xSD, yMean+1, ySD, n, 'B')
-    plotSamples = (d2samples,'ko')
-    clusters = trykmeans(d1samples+d2samples, k, numTrials, verbose)
+    plotSamples(d2samples,'ko')
+    clusters = tryKmeans(d1samples+d2samples, k, numTrials, verbose)
     print('Final result')
     for c in clusters :
         print(' ',c)
