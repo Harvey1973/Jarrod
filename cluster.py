@@ -2,20 +2,18 @@ import random , string, copy
 import pylab
 
 class Point(object):
-    def __init__(self, name, originalAttrs, normalizedAttrs = None ):
+    """Point is the data to be clustered"""
+    def __init__(self, name, Features, label = None ):
         """normalizedAttrs and originalAttrs are both lists"""
         self.name = name 
-        self.unNormalized = originalAttrs
-        if normalizedAttrs == None :
-            self.attrs = originalAttrs 
-        else :
-            self.attrs = normalizedAttrs
+        self.Features = Features
+        
     def dimensionality (self):
-        return (len(self.attrs))
-    def getAttrs(self):
-        return self.attrs
-    def getOriginalAttrs(self):
-        return self.unNormalized 
+        return len(self.Features)
+    def getFeatures(self):
+        return self.Features[:]
+    def getLabel(self):
+        return self.label 
     def distance(self, other):
         #distance function is used to calculate the euclidean distance between two points
         result = 0.0 
@@ -27,14 +25,13 @@ class Point(object):
     def toStr(self):
         return self.name +str(self.attrs)
     def __str__(self):
-        return self.name
+        return self.name + ':' + str(self.Features) + ':' + str(self.label)
 
 
 class Cluster(object) :
       """points are list of object of type Point defined above , they are the points in a cluster """
-      def __init__(self, points, pointType):
+      def __init__(self, points):
           self.points = points 
-          self.pointType = pointType
           self.centroid = self.computeCentroid()
       def singleLinkageDist(self, other) :
           minDist = self.points[0].distance(other.points[0])
@@ -86,18 +83,17 @@ class Cluster(object) :
          for p in self.points :
              name.append(p.getName())
          name.sort()
-         result = ''
+         result = 'Cluster with centroid' + str(self.centroid.getFeatures())+ 'contains:\n'
          for p in name :
              result = result + p + ', '
          return result[:-2]
       def getCentroid(self):
          return self.centroid
       def computeCentroid(self):
-         dim = self.points[0].dimensionality()
-         totoalVals = pylab.array([0.0]*dim)
+         vals = pylab.array([0.0]*self.points[0].dimensionality())
          for p in self.points :
-             totoalVals += p.getAttrs()
-         centroid = self.pointType('centroid', totoalVals/float(len(self.points)))
+             vals += p.getFeatures()
+         centroid = Point('centroid', vals/float(len(self.points)))
          return centroid 
 
  ## clusterSet is used to hierachical clustering         
@@ -166,16 +162,16 @@ class ClusterSet(object) :
 
 
 ## k means 
-def kmeans(points, k, cutoff, pointType, maxIter = 100, toPrint = False) :
+def kmeans(points, k, verbose = False) :
     #first step : randomly choose k points 
     initialCentroids = random.sample(points, k)
     clusters = []
     #assign each of those points to its own cluster 
     for p in initialCentroids :
-        clusters.append(Cluster(p, pointType))
+        clusters.append(Cluster([p]))
+    converged = False
     numIter = 0
-    biggestChange = cutoff 
-    while biggestChange >=cutoff and numIter < make :
+    while not converged :
         #creat a list containing k empty lists 
         newClusters = []
         for i in range (k):
@@ -184,26 +180,30 @@ def kmeans(points, k, cutoff, pointType, maxIter = 100, toPrint = False) :
             #find the centroid closest to p ,which is a point 
             smallestDistance = p.distance(clusters[0].getCentroid())
             index = 0 
-            for i in range(k) :
+            for i in range(1,k) :
                 distance = p.distance(centroid[i].getCentroid())
                 if distance < smallestDistance :
                     smallestDistance = distance
                     index = i 
             ## add p to the list of points for appropriate cluster 
             newClusters[index].append(p)
+        for c in newClusters :
+            if (len(c) == 0):
+                raise ValueError('Empty Cluster')    
         ## now update the cluster and calculate change
-        biggestChange = 0.0
-        for i in range(len(clusters)):
-            change = cluster[i].update(newClusters[i])
-            biggestChange = max(biggestChange,change)
+        converged = True
+        for i in range(k):
+            if cluster[i].update(newClusters[i]) > 0.0 :
+                converged = False 
+          
         numIter +=1
-    maxDist = 0.0
-    for c in clusters :
-        for p in c.members():
-            if p.distance(c.getCentroid()) > maxDist :
-                maxDist = p.distance(c.getCentroid())
-    print ('Number of iterations =' + numIter +'Max diameter ' + maxDist)     
-    return clusters     
+   
+        if verbose :
+              print ('Number of iterations =' + numIter)
+              for c in clusters :
+                  print(c)
+              print('')     
+     return clusters     
 ##find the best k values 
 def dissimilarity(clusters):
     totDist = 0.0 
@@ -213,7 +213,7 @@ def dissimilarity(clusters):
 
 def tryKmeans(points, numClusters, numTrials, verbose = False):
     """call k means multiple times and return the result with least dissimilarity"""
-    best = kmeans(points, numClusters, 0, 'coor', verbose)
+    best = kmeans(points, numClusters, verbose = False)
     minDissimilarity = dissimilarity(best)
     trial = 1 
     while trial < numTrials :
