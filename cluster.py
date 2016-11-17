@@ -181,7 +181,7 @@ def kmeans(points, k, verbose = False) :
             smallestDistance = p.distance(clusters[0].getCentroid())
             index = 0 
             for i in range(1,k) :
-                distance = p.distance(centroid[i].getCentroid())
+                distance = p.distance(clusters[i].getCentroid())
                 if distance < smallestDistance :
                     smallestDistance = distance
                     index = i 
