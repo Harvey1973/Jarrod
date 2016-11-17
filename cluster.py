@@ -96,7 +96,7 @@ class Point(object):
          totoalVals = pylab.array([0.0]*dim)
          for p in self.points :
              totoalVals += p.getAttrs()
-         centroid = self.pointType('mean', totoalVals/float(len(self.points)),totoalVals/float(len(self.points)))
+         centroid = self.pointType('centroid', totoalVals/float(len(self.points)))
          return centroid 
 
  ## clusterSet is used to hierachical clustering         
@@ -105,12 +105,14 @@ class Point(object):
      def __init__(self,pointType):
          self.members = []
      def add(self, c):
+         """add one cluster in the list"""
          if c in self.members :
              raise ValueError
          self.members.append(c)
      def getClusters(self):
          return self.members[:]
      def mergeClusters(self, c1, c2):
+         """this will merge two clusters , by appending its members in a list and instantiate using Cluster class"""
          points = [] 
          for p in c1.members() :
              points.append(p)
@@ -119,8 +121,91 @@ class Point(object):
          newC = Cluster(points , type(p))
          self.members.remove(c1)
          self.members.remove(c2)
-         return c1, c2
-      def findClosest 
+         return newC 
+     def findClosest(self, metric):
+         """find the closest  pair of clusters and return a tuple of thoses 2 clusters"""
+         minDistance = metric (self.members[0],self.members[1])
+         toMerge = (self.members[0],self.members[1])
+         for c1 in self.members :
+             for c2 in self.members :
+                 if c1 = c2 :
+                     continue 
+                 if metric (c1,c2) < minDistance :
+                     minDistance = metric (c1, c2)
+                     toMerge = (c1, c2)
+        return toMerge
+     def MergeOne(self, metric, toPrint = False )
+         """merge 2 cluster using findClosest"""
+         if len(self.members ) == 1 :
+             return None 
+         if len(self.members)  == 2 :
+             return mergeClusters(self.members[0],self.members[1])
+         ##otherwise find the closest pair 
+         toMerge = findClosest(metric) 
+         if toPrint :
+             print ('merged')
+             print (' '+ str(toMerge[0]))
+             print ('with')
+             print (' '+str(toMerge[1]))
+         self.mergeCluster(toMerge[0],toMerge[1])
+         ##return the merged 2 clusters 
+      def mergeN(self, metric, numClusters = 1, history = [], toPrint = False):
+          assert numClusters >=1 
+          while len(self.members)> numClusters :
+              merged = self.MergeOne(metric, toPrint)
+              history.append(merged)
+          return history 
+      def numClusters(self)
+          return len(self.members) + 1
+      def __str__(self) :
+          result = ''
+          for c in self.members :
+              result = result + str(c) + '\n'
+          return result 
+
+
+## k means 
+def kmeans(points, k, cutoff, pointType, maxIter = 100, toPrint = False) :
+    #first step : randomly choose k points 
+    initialCentroids = random.sample(points, k)
+    clusters = []
+    #assign each of those points to its own cluster 
+    for p in initialCentroids :
+        clusters.append(Cluster(p, pointType))
+    numIter = 0
+    biggestChange = cutoff 
+    while biggestChange >=cutoff and numIter < make :
+        #creat a list containing k empty lists 
+        newClusters = []
+        for i in range (k):
+            newClusters.append([])
+        for p in points :
+            #find the centroid closest to p ,which is a point 
+            smallestDistance = p.distance(clusters[0].getCentroid())
+            index = 0 
+            for i in range(k) :
+                distance = p.distance(centroid[i].getCentroid())
+                if distance < smallestDistance :
+                    smallestDistance = distance
+                    index = i 
+            ## add p to the list of points for appropriate cluster 
+            newClusters[index].append(p)
+        ## now update the cluster and calculate change
+        biggestChange = 0.0
+        for i in range(len(clusters)):
+            change = cluster[i].update(newClusters[i])
+            biggestChange = max(biggestChange,change)
+        numIter +=1
+    maxDist = 0.0
+    for c in clusters :
+        for p in c.members():
+            if p.distance(c.getCentroid()) > maxDist :
+                maxDist = p.distance(c.getCentroid())
+    print ('Number of iterations =' + numIter +'Max diameter ' + maxDist)     
+    return clusters , maxDist      
+         
+
+
 
 
 

@@ -25,10 +25,7 @@ class ExponentialAverage(Filter):
         self.data_list.append(coor);
         return data_list ;
     def calculate_average(self,new_x,new_y):
-##        average_x = 0.0
-##        average_y = 0.0
-##        self.data_x = self.append_list(new_x,self.data_x)
-##        self.data_y = self.append_list(new_y,self.data_y)
+
         self.data_x.append(new_x)
         self.data_y.append(new_y)
         
