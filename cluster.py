@@ -54,6 +54,11 @@ class Cluster(object) :
                   totdist += p1.distance(p2)
           average = totdist/(len(self.points)*len(other.points))
           return average
+      def variability(self):
+          totDist = 0.0
+          for p in self.points :
+              totDist += (p.distance(self.centroid))**2
+          return totDist
       def update (self, points) :
           """update the oldcentroid and returns the change between one iteration """
           oldcentroid = self.centroid 
@@ -78,15 +83,7 @@ class Cluster(object) :
          for p in self.points :
              result = result + p.toStr() + ','
          return result[:-2]
-      def __str__(self):
-         name = []
-         for p in self.points :
-             name.append(p.getName())
-         name.sort()
-         result = 'Cluster with centroid' + str(self.centroid.getFeatures())+ 'contains:\n'
-         for p in name :
-             result = result + p + ', '
-         return result[:-2]
+      
       def getCentroid(self):
          return self.centroid
       def computeCentroid(self):
@@ -94,7 +91,16 @@ class Cluster(object) :
          for p in self.points :
              vals += p.getFeatures()
          centroid = Point('centroid', vals/float(len(self.points)))
-         return centroid 
+         return centroid
+      def __str__(self):
+         name = []
+         for p in self.points :
+             name.append(p.getName())
+         name.sort()
+         result = 'Cluster with centroid' + str(self.centroid.getFeatures())+ 'contains:\n'
+         for e in name :
+             result = result + e + ', '
+         return result[:-2]
 
  ## clusterSet is used to hierachical clustering         
 class ClusterSet(object) :
@@ -193,13 +199,13 @@ def kmeans(points, k, verbose = False) :
         ## now update the cluster and calculate change
         converged = True
         for i in range(k):
-            if cluster[i].update(newClusters[i]) > 0.0 :
+            if clusters[i].update(newClusters[i]) > 0.0 :
                 converged = False 
           
         numIter +=1
    
         if verbose :
-              print ('Number of iterations =' + numIter)
+              print ('Number of iterations =' + str(numIter))
               for c in clusters :
                   print(c)
               print('')     
@@ -208,8 +214,8 @@ def kmeans(points, k, verbose = False) :
 def dissimilarity(clusters):
     totDist = 0.0 
     for c in clusters :
-        totdist += c.variability()
-    return totdist
+        totDist += c.variability()
+    return totDist
 
 def tryKmeans(points, numClusters, numTrials, verbose = False):
     """call k means multiple times and return the result with least dissimilarity"""
@@ -236,7 +242,7 @@ def genDistribution (xMean, xSD, yMean, ySD, n, namePrefix) :
     for s in range(n) :
         x = random.gauss(xMean, xSD)
         y = random.gauss(yMean, ySD)
-        samples.append(Point(namePrefix+str(s),[x,y],None))
+        samples.append(Point(namePrefix+str(s),[x,y]))
     return samples
 def plotSamples(samples, marker):
     xVals, yVals =[], []
@@ -258,9 +264,10 @@ def contrivedTest(numTrials, k, verbose = False):
     d2samples = genDistribution(xMean+3, xSD, yMean+1, ySD, n, 'B')
     plotSamples(d2samples,'ko')
     clusters = tryKmeans(d1samples+d2samples, k, numTrials, verbose)
+    pylab.show()
     print('Final result')
     for c in clusters :
-        print(' ',c)
+        print(c)
       
          
 
