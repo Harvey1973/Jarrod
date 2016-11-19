@@ -7,8 +7,10 @@ def readGazeData(fName):
                 contents = line.split(',')
                 x = contents[0]
                 y = contents[1]
+                
                 ##only read the first 2 columns of data ,ignore time stamp for now 
-                samples.append([x,y])
+                samples.append([float(x),float(y)])
+                
         except ValueError :
             pass
     return samples

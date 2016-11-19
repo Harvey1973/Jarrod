@@ -7,7 +7,7 @@ class Point(object):
         """normalizedAttrs and originalAttrs are both lists"""
         self.name = name 
         self.Features = Features
-        
+        self.label = label
     def dimensionality (self):
         return len(self.Features)
     def getFeatures(self):
