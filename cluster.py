@@ -287,16 +287,16 @@ def readGazeData(fName):
                 y = contents[1]
                 
                 ##only read the first 2 columns of data ,ignore time stamp for now 
-                samples.append(Point(str(i),[float(x),float(y)]))
+                samples.append(Point('',[float(x),float(y)]))
                 i = i + 1
                 
         except ValueError :
             pass
     return samples
 def Test(numTrials, k, verbose = False) :
-    points = readGazeData('Test_gaze_analysis.txt')
+    points = readGazeData('static_1x4_letters_TAOW_1.txt')
     clusters = tryKmeans(points, k, numTrials, verbose)
-    marker = ['ro','bo','ko']
+    marker = ['ro','bo','ko','go']
     i = 0
     for c in clusters :
         plotSamples(c.points,marker[i])
