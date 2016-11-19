@@ -260,15 +260,36 @@ def contrivedTest(numTrials, k, verbose = False):
     ySD = 1 
     n = 10 
     d1samples = genDistribution(xMean, xSD, yMean, ySD, n, 'A')
-    plotSamples(d1samples,'k^')
+    #plotSamples(d1samples,'k^')
     d2samples = genDistribution(xMean+3, xSD, yMean+1, ySD, n, 'B')
-    plotSamples(d2samples,'ko')
+    #plotSamples(d2samples,'ko')
     clusters = tryKmeans(d1samples+d2samples, k, numTrials, verbose)
+    #try to plot points in different cluster using different color 
+    color = ['r','b']
+    i = 0 
+    for c in clusters :
+        plotSamples(c,color[i])
+        i += 1
+
     pylab.show()
     print('Final result')
     for c in clusters :
         print(c)
-      
+def readGazeData(self,fName):
+    samples = []
+    with open(fName,'r') as f :
+        try :
+            for line in f :
+                contents = line.split(',')
+                x = contents[0]
+                y = contents[1]
+                
+                ##only read the first 2 columns of data ,ignore time stamp for now 
+                samples.append(Point([float(x),float(y)]))
+                
+        except ValueError :
+            pass
+    return samples
          
 
 
