@@ -1,3 +1,4 @@
+import random
 class Example(object): 
     """this class is used to creat instances of a single point in the gaze data which will be used for traing"""
     def __init__(self,selection,x_coor,y_coor) :
@@ -24,13 +25,14 @@ def buildGazeExample(fileName):
     data = getData(fileName)
     examples = []
     for i in range(len(data['x_coor'])):
-        a = Example(data['selection'][i],data['x_coor'][i],data['y_coor'][i]])
+        a = Example(data['selection'][i], data['x_coor'][i], data['y_coor'][i])
         examples.append(a)
     return examples
 def dividesample(examples):
-    test_index = random.sample(range(len(examples),len(examples)//5)
-    trainingSet , testSet = [], []
-    for i in range (len(samples)):
+    test_index = random.sample(range(len(examples)),len(examples)/5)
+    trainingSet = []
+    testSet = []
+    for i in range (len(examples)):
         if i in test_index :
             testSet.append(examples[i])
         else :
