@@ -135,7 +135,14 @@ def getGazedata(clusters):
                data['x_coor'].append(p.getFeatures()[0])
                data['y_coor'].append(p.getFeatures()[1])
     return data
-     
+def buildGazeExamples(data):
+    examples = []
+    for i in range(len(data['selection'])):
+        a = Example(data['selection'][i], data['x_coor'][i], data['y_coor'][i])
+        examples.append(a)
+    return examples
+
+
 
 
 

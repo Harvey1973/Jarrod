@@ -335,7 +335,7 @@ def getGazedata(clusters):
 def Test_classify(n) :
     clusters = Test(1, 4, False)
     training = getGazedata(clusters)
-    print(training['selection'][0]+ ' x_coor is' + str(training['x_coor'][0])+' y_coor is' + str(training['y_coor'][0]))
+    print(training['selection'][n]+ ' x_coor is' + str(training['x_coor'][n])+' y_coor is' + str(training['y_coor'][n]))
 
          
 
