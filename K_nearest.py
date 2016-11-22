@@ -50,14 +50,14 @@ def findKnearest(example, exampleSet, k):
     maxDist = max(distance)   ##get maximum distance
     ##now consider the poins left  --- this is a iterative process that continuesly update the nearest points 
     for e in exampleSet[k:]:
-        dist = example.feartureDist(e)
+        dist = example.featureDist(e)
         if dist < maxDist :    
             ## in this case we need to update the kNearest since we have found a point that is closer 
             maxIndex = distance.index(maxDist)
             kNearest[maxIndex] = e 
-            distances[maxIndex] = dis 
-            maxDist = max(distances)  ##update the maximum distance 
-    return kNearest, distances
+            distance[maxIndex] = dist 
+            maxDist = max(distance)  ##update the maximum distance 
+    return kNearest, distance
 
 def kNearestClassify(training, testSet, label, k):
     """assume training and testSet are both list of object examples , k is an integer , this method use findKnearest methond defined above to predict the category a given example will fall into,for testing purposes 
@@ -67,13 +67,27 @@ def kNearestClassify(training, testSet, label, k):
         ## tranverse each point in the testSet and classifiy it 
         nearest, distances = findKnearest(e, training, k)
         ## conduct vote 
-        numMatch = 0
+        numMatch = [0, 0, 0, 0]
+        labels = ['A', 'B', 'C', 'D']
+        index_label = labels.index(label)
+        
         for i in range(len(nearest)):
             ##this loop with count the occurences of each category in the nearest neighbours 
-            if nearest[i].getLabel() == label :
+            if nearest[i].getLabel() == 'A' :
                 ## if an example in nearest has the given label then numMatch plus 1 
-                numMatch += 1
-        if numMatch > k//2 :
+                numMatch[0] += 1
+            if nearest[i].getLabel() == 'B' :
+                ## if an example in nearest has the given label then numMatch plus 1 
+                numMatch[1] += 1
+            if nearest[i].getLabel() == 'C' :
+                ## if an example in nearest has the given label then numMatch plus 1 
+                numMatch[2] += 1
+            if nearest[i].getLabel() == 'D' :
+                ## if an example in nearest has the given label then numMatch plus 1 
+                numMatch[3] += 1
+        maxMatch = max(numMatch)
+        index_num = numMatch.index(maxMatch)
+        if index_num == index_label :
               #guess label
               if e.getLabel() == label :
                   truePos += 1
@@ -125,7 +139,7 @@ def getStats(truePos, falsePos, trueNeg, falseNeg, verbose = True):
     return (accur, sens, spec, ppv)
 ##the following method will read the gaze point data 
 
-clusters = Test(1, 4, False) ## get a cluster
+
 def getGazedata(clusters):
     data ={}  ##defined as dictionary 
     data['selection'], data['x_coor'], data['y_coor'] = [], [], []
@@ -142,7 +156,15 @@ def buildGazeExamples(data):
         examples.append(a)
     return examples
 
-
+def Test():
+    clusters = cluster.Test(1, 4, False) ## get a cluster
+    data = getGazedata(clusters)
+    examples = buildGazeExamples(data)
+    training, testSet = dividesample(examples)
+    truePos, falsePos, trueNeg, falseNeg = kNearestClassify(training, testSet, 'A', 9)
+    getStats(truePos, falsePos, trueNeg, falseNeg)
+    
+    
 
 
 
