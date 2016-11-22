@@ -125,11 +125,17 @@ def getStats(truePos, falsePos, trueNeg, falseNeg, verbose = True):
     return (accur, sens, spec, ppv)
 ##the following method will read the gaze point data 
 
-def getGazedata(fileName):
+clusters = Test(1, 4, False) ## get a cluster
+def getGazedata(clusters):
     data ={}  ##defined as dictionary 
-    f = open(fileName)
-    line = f.readline()
-    data['']
+    data['selection'], data['x_coor'], data['y_coor'] = [], [], []
+    for c in clusters :
+        for p in c.points:
+               data['selection'].append(p.label)
+               data['x_coor'].append(p.getFeatures()[0])
+               data['y_coor'].append(p.getFeatures()[1])
+    return data
+     
 
 
 

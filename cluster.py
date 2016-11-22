@@ -315,15 +315,24 @@ def Test(numTrials, k, verbose = False) :
         index = sorted_centroids.index(c.getCentroid().getFeatures().tolist())
         for p in c.points :
                      p.label = label[index]
-        
-        
     print(clusters[0].points[0])
     print(clusters[1].points[0])
     print(clusters[2].points[0])
     print(clusters[3].points[0])
-    
     pylab.show()
-    
+    return clusters
+
+def getGazedata(clusters):
+    data ={}  ##defined as dictionary 
+    data['selection'], data['x_coor'], data['y_coor'] = [], [], []
+    for c in clusters :
+        for p in c.points:
+               data['selection'].append(p.label)
+               data['x_coor'].append(p.getFeatures()[0])
+               data['y_coor'].append(p.getFeatures()[1])
+    return data
+
+
          
 
 
