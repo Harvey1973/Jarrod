@@ -70,7 +70,7 @@ def kNearestClassify(training, testSet, k):
         ## conduct vote 
         numMatch = [0, 0, 0, 0]
         labels = ['A', 'B', 'C', 'D']
-        index_label = labels.index(label)
+##        index_label = labels.index(label)
         
         for i in range(len(nearest)):
             ##this loop with count the occurences of each category in the nearest neighbours 
@@ -86,22 +86,26 @@ def kNearestClassify(training, testSet, k):
             if nearest[i].getLabel() == 'D' :
                 ## if an example in nearest has the given label then numMatch plus 1 
                 numMatch[3] += 1
-        maxMatch = max(numMatch)
-        index_num = numMatch.index(maxMatch)
-        possible_label = labels(index_num)
-        if index_num == index_label :
-              #guess label
-              if e.getLabel() == label :
-                  truePos += 1
-              else :
-                  falsePos += 1
-        else :
-            if e.getLabel() != label :
-                trueNeg += 1
-            else :
-                falseNeg += 1
+    maxMatch = max(numMatch)
+    index_num = numMatch.index(maxMatch)
+    possible_label = labels[index_num]
+    prob = float(maxMatch)/float(9)
+    
+    print('maxmatch is '+str(maxMatch))
+    print(prob)
+##        if index_num == index_label :
+##              #guess label
+##              if e.getLabel() == label :
+##                  truePos += 1
+##              else :
+##                  falsePos += 1
+##        else :
+##            if e.getLabel() != label :
+##                trueNeg += 1
+##            else :
+##                falseNeg += 1
     ##return truePos, falsePos, trueNeg, falseNeg 
-    return possible_label
+    return possible_label , prob
 
 
 ##The follwing methods will be used to evaluate the performance of the classifier 
@@ -165,14 +169,15 @@ def Test():
     examples = buildGazeExamples(data)
     ##training, testSet = dividesample(examples)
     training = examples
-    a = Example(None,200,200)
+    a = Example(None,300,380)
     testSet = []
     testSet.append(a)
 
 ##    truePos, falsePos, trueNeg, falseNeg = kNearestClassify(training, testSet, 'A', 9)
 ##    getStats(truePos, falsePos, trueNeg, falseNeg)
-    result = kNearestClassify(training, testSet, 9)
-    print(result)
+    result, prob = kNearestClassify(training, testSet, 9)
+    
+    print(str(result)+' '+ str(float(prob)))
     
     
 
