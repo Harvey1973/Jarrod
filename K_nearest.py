@@ -89,7 +89,7 @@ def kNearestClassify(training, testSet, k):
     maxMatch = max(numMatch)
     index_num = numMatch.index(maxMatch)
     possible_label = labels[index_num]
-    prob = float(maxMatch)/float(9)
+    prob = float(maxMatch)/float(k)
     
     print('maxmatch is '+str(maxMatch))
     print(prob)
@@ -163,19 +163,19 @@ def buildGazeExamples(data):
         examples.append(a)
     return examples
 
-def Test():
+def Test(x,y,k):
     clusters = cluster.Test(1, 4, False) ## get a cluster
     data = getGazedata(clusters)
     examples = buildGazeExamples(data)
     ##training, testSet = dividesample(examples)
     training = examples
-    a = Example(None,300,380)
+    a = Example(None,x,y)
     testSet = []
     testSet.append(a)
 
 ##    truePos, falsePos, trueNeg, falseNeg = kNearestClassify(training, testSet, 'A', 9)
 ##    getStats(truePos, falsePos, trueNeg, falseNeg)
-    result, prob = kNearestClassify(training, testSet, 9)
+    result, prob = kNearestClassify(training, testSet,k)
     
     print(str(result)+' '+ str(float(prob)))
     

@@ -298,7 +298,7 @@ def Test(numTrials, k, verbose = False) :
     points = readGazeData('static_1x4_letters_TAOW_1.txt')
     clusters = tryKmeans(points, k, numTrials, verbose)
     ## give each point in cluster a label [A, B, C,D]
-    label = ['A', 'B', 'C', 'D','E']
+    label = ['A', 'B', 'C', 'D']
     centroids = []
     marker = ['ro','bo','ko','go']
     i = 0
