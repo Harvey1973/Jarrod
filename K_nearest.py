@@ -59,7 +59,8 @@ def findKnearest(example, exampleSet, k):
             maxDist = max(distance)  ##update the maximum distance 
     return kNearest, distance
 
-def kNearestClassify(training, testSet, label, k):
+##def kNearestClassify(training, testSet, label, k):
+def kNearestClassify(training, testSet, k):
     """assume training and testSet are both list of object examples , k is an integer , this method use findKnearest methond defined above to predict the category a given example will fall into,for testing purposes 
     , 20% of training data will be used for testing  """
     truePos, falsePos, trueNeg, falseNeg = 0, 0, 0, 0
@@ -87,6 +88,7 @@ def kNearestClassify(training, testSet, label, k):
                 numMatch[3] += 1
         maxMatch = max(numMatch)
         index_num = numMatch.index(maxMatch)
+        possible_label = labels(index_num)
         if index_num == index_label :
               #guess label
               if e.getLabel() == label :
@@ -98,7 +100,8 @@ def kNearestClassify(training, testSet, label, k):
                 trueNeg += 1
             else :
                 falseNeg += 1
-    return truePos, falsePos, trueNeg, falseNeg 
+    ##return truePos, falsePos, trueNeg, falseNeg 
+    return possible_label
 
 
 ##The follwing methods will be used to evaluate the performance of the classifier 
@@ -160,7 +163,9 @@ def Test():
     clusters = cluster.Test(1, 4, False) ## get a cluster
     data = getGazedata(clusters)
     examples = buildGazeExamples(data)
-    training, testSet = dividesample(examples)
+    ##training, testSet = dividesample(examples)
+    training = examples
+    testSet = Example(200,200)
     truePos, falsePos, trueNeg, falseNeg = kNearestClassify(training, testSet, 'A', 9)
     getStats(truePos, falsePos, trueNeg, falseNeg)
     
