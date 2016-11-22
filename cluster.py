@@ -103,69 +103,69 @@ class Cluster(object) :
 ##             result = result + e + ', '
          return result[:-2]
 
- ## clusterSet is used to hierachical clustering         
-class ClusterSet(object) :
-     """set of cluster"""
-     def __init__(self,pointType):
-         self.members = []
-     def add(self, c):
-         """add one cluster in the list"""
-         if c in self.members :
-             raise ValueError
-         self.members.append(c)
-     def getClusters(self):
-         return self.members[:]
-     def mergeClusters(self, c1, c2):
-         """this will merge two clusters , by appending its members in a list and instantiate using Cluster class"""
-         points = [] 
-         for p in c1.members() :
-             points.append(p)
-         for p in c2.members() :
-             points.append(p)
-         newC = Cluster(points , type(p))
-         self.members.remove(c1)
-         self.members.remove(c2)
-         return newC 
-     def findClosest(self, metric):
-         """find the closest  pair of clusters and return a tuple of thoses 2 clusters"""
-         minDistance = metric (self.members[0],self.members[1])
-         toMerge = (self.members[0],self.members[1])
-         for c1 in self.members :
-             for c2 in self.members :
-                 if c1 == c2 :
-                     continue 
-                 if metric (c1,c2) < minDistance :
-                     minDistance = metric (c1, c2)
-                     toMerge = (c1, c2)
-         return toMerge
-     def MergeOne(self, metric, toPrint = False ):
-         """merge 2 cluster using findClosest"""
-         if len(self.members ) == 1 :
-             return None 
-         if len(self.members)  == 2 :
-             return mergeClusters(self.members[0],self.members[1])
-         ##otherwise find the closest pair 
-         toMerge = findClosest(metric) 
-         if toPrint :
-             print ('merged')
-             print (' '+ str(toMerge[0]))
-             print ('with')
-             print (' '+str(toMerge[1]))
-         self.mergeCluster(toMerge[0],toMerge[1])
-         ##return the merged 2 clusters 
-     def mergeN(self, metric, numClusters = 1, history = [], toPrint = False): 
-          assert numClusters >=1 
-          while len(self.members)> numClusters :
-              merged = self.MergeOne(metric, toPrint)
-              history.append(merged)
-          return history 
-     def numClusters(self):
-          return len(self.members) + 1
-     def __str__(self) :
-          result = ''
-          for c in self.members :
-              result = result + str(c) + '\n'
-          return result 
+## ## clusterSet is used to hierachical clustering         
+##class ClusterSet(object) :
+##     """set of cluster"""
+##     def __init__(self,pointType):
+##         self.members = []
+##     def add(self, c):
+##         """add one cluster in the list"""
+##         if c in self.members :
+##             raise ValueError
+##         self.members.append(c)
+##     def getClusters(self):
+##         return self.members[:]
+##     def mergeClusters(self, c1, c2):
+##         """this will merge two clusters , by appending its members in a list and instantiate using Cluster class"""
+##         points = [] 
+##         for p in c1.members() :
+##             points.append(p)
+##         for p in c2.members() :
+##             points.append(p)
+##         newC = Cluster(points , type(p))
+##         self.members.remove(c1)
+##         self.members.remove(c2)
+##         return newC 
+##     def findClosest(self, metric):
+##         """find the closest  pair of clusters and return a tuple of thoses 2 clusters"""
+##         minDistance = metric (self.members[0],self.members[1])
+##         toMerge = (self.members[0],self.members[1])
+##         for c1 in self.members :
+##             for c2 in self.members :
+##                 if c1 == c2 :
+##                     continue 
+##                 if metric (c1,c2) < minDistance :
+##                     minDistance = metric (c1, c2)
+##                     toMerge = (c1, c2)
+##         return toMerge
+##     def MergeOne(self, metric, toPrint = False ):
+##         """merge 2 cluster using findClosest"""
+##         if len(self.members ) == 1 :
+##             return None 
+##         if len(self.members)  == 2 :
+##             return mergeClusters(self.members[0],self.members[1])
+##         ##otherwise find the closest pair 
+##         toMerge = findClosest(metric) 
+##         if toPrint :
+##             print ('merged')
+##             print (' '+ str(toMerge[0]))
+##             print ('with')
+##             print (' '+str(toMerge[1]))
+##         self.mergeCluster(toMerge[0],toMerge[1])
+##         ##return the merged 2 clusters 
+##     def mergeN(self, metric, numClusters = 1, history = [], toPrint = False): 
+##          assert numClusters >=1 
+##          while len(self.members)> numClusters :
+##              merged = self.MergeOne(metric, toPrint)
+##              history.append(merged)
+##          return history 
+##     def numClusters(self):
+##          return len(self.members) + 1
+##     def __str__(self) :
+##          result = ''
+##          for c in self.members :
+##              result = result + str(c) + '\n'
+##          return result 
 
 
 ## k means 
@@ -319,7 +319,7 @@ def Test(numTrials, k, verbose = False) :
     print(clusters[1].points[0])
     print(clusters[2].points[0])
     print(clusters[3].points[0])
-##    pylab.show()
+    ##pylab.show()
     return clusters
 
 def getGazedata(clusters):
