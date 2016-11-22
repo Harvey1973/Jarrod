@@ -165,9 +165,14 @@ def Test():
     examples = buildGazeExamples(data)
     ##training, testSet = dividesample(examples)
     training = examples
-    testSet = Example(200,200)
-    truePos, falsePos, trueNeg, falseNeg = kNearestClassify(training, testSet, 'A', 9)
-    getStats(truePos, falsePos, trueNeg, falseNeg)
+    a = Example(None,200,200)
+    testSet = []
+    testSet.append(a)
+
+##    truePos, falsePos, trueNeg, falseNeg = kNearestClassify(training, testSet, 'A', 9)
+##    getStats(truePos, falsePos, trueNeg, falseNeg)
+    result = kNearestClassify(training, testSet, 9)
+    print(result)
     
     
 
