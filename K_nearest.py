@@ -1,4 +1,5 @@
 import random
+import cluster
 class Example(object): 
     """this class is used to creat instances of a single point in the gaze data which will be used for traing"""
     def __init__(self,selection,x_coor,y_coor) :
@@ -122,7 +123,14 @@ def getStats(truePos, falsePos, trueNeg, falseNeg, verbose = True):
         print('specificity = ',round(spec,3))
         print('Positive Predicative value = ', round(ppv,3))
     return (accur, sens, spec, ppv)
-    ss
+##the following method will read the gaze point data 
+
+def getGazedata(fileName):
+    data ={}  ##defined as dictionary 
+    f = open(fileName)
+    line = f.readline()
+    data['']
+
 
 
 
