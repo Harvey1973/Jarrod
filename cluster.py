@@ -319,7 +319,7 @@ def Test(numTrials, k, verbose = False) :
     print(clusters[1].points[0])
     print(clusters[2].points[0])
     print(clusters[3].points[0])
-    pylab.show()
+##    pylab.show()
     return clusters
 
 def getGazedata(clusters):
