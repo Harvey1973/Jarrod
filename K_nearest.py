@@ -122,7 +122,7 @@ def getStats(truePos, falsePos, trueNeg, falseNeg, verbose = True):
         print('specificity = ',round(spec,3))
         print('Positive Predicative value = ', round(ppv,3))
     return (accur, sens, spec, ppv)
-    
+    ss
 
 
 
