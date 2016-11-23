@@ -52,7 +52,7 @@ def Test1(x,y,k):
 
 ##    truePos, falsePos, trueNeg, falseNeg = kNearestClassify(training, testSet, 'A', 9)
 ##    getStats(truePos, falsePos, trueNeg, falseNeg)
-     result, prob = kNearestClassify(training, testSet,k)
+     result, prob = K_nearest.kNearestClassify(training, testSet,k)
     
      print(str(result)+' '+ str(float(prob)))
      pylab.show()
