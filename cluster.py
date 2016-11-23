@@ -310,7 +310,7 @@ def Test(numTrials, k, verbose = False) :
     sorted_centroids = sorted(centroids, key = lambda k: [k[0],k[1]])
     print(sorted_centroids)
     #print centroids to a file
-    f = open("centroids.txt",'wb')
+    f = open("centroids.txt",'w')
     for item in sorted_centroids:
         for cen in item:
             f.write("%s\n"%item)
