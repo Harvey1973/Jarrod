@@ -27,8 +27,9 @@ def Test():
     print('[0, 2] prob =', model.predict_proba([[0, 2, 2]])[0])
     print('[2, 0] prob =', model.predict_proba([[2, 0, 1]])[0])
     print('[2, 2] prob =', model.predict_proba([[2, 2, 1]])[0])
-clusters = cluster.Test(1, 4, False) ## get a cluster    
+ 
 def Test1(x,y):
+     clusters = cluster.Test(1, 4, False) ## get a cluster   
      ##clusters = cluster.Test(1, 4, False) ## get a cluster
      features, labels = [], []
      for c in clusters :
