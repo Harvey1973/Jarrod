@@ -250,7 +250,7 @@ def plotSamples(samples, marker):
     for s in samples :
         x = s.getFeatures()[0]
         y = s.getFeatures()[1]
-        pylab.annotate(s.getName(),xy = (x,y), xytext = (x+0.13, y-0.07), fontsize = 'x-large')
+        #pylab.annotate(s.getName(),xy = (x,y), xytext = (x+0.13, y-0.07), fontsize = 'x-large')
         xVals.append(x)
         yVals.append(y)
     pylab.plot(xVals, yVals, marker)
