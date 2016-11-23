@@ -309,16 +309,20 @@ def Test(numTrials, k, verbose = False) :
         centroids.append(c.getCentroid().getFeatures().tolist())
     sorted_centroids = sorted(centroids, key = lambda k: [k[0],k[1]])
     print(sorted_centroids)
+    #print centroids to a file
+    f = open("centroids.txt",'wb')
+    for item in sorted_centroids:
+        f.write("%s\n"%item)
     k = 0
     
     for c in clusters :
         index = sorted_centroids.index(c.getCentroid().getFeatures().tolist())
         for p in c.points :
                      p.label = label[index]
-    print(clusters[0].points[0])
-    print(clusters[1].points[0])
-    print(clusters[2].points[0])
-    print(clusters[3].points[0])
+    #print(clusters[0].points[0])
+    #print(clusters[1].points[0])
+    #print(clusters[2].points[0])
+    #print(clusters[3].points[0])
     ##pylab.show()
     return clusters
 
