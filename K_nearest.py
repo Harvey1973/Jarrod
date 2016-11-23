@@ -1,5 +1,6 @@
 import random
 import cluster
+import pylab
 class Example(object): 
     """this class is used to creat instances of a single point in the gaze data which will be used for traing"""
     def __init__(self,selection,x_coor,y_coor) :
@@ -178,6 +179,7 @@ def Test(x,y,k):
     result, prob = kNearestClassify(training, testSet,k)
     
     print(str(result)+' '+ str(float(prob)))
+    pylab.show()
     
     
 
