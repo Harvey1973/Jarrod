@@ -312,7 +312,8 @@ def Test(numTrials, k, verbose = False) :
     #print centroids to a file
     f = open("centroids.txt",'wb')
     for item in sorted_centroids:
-        f.write("%s\n"%item)
+        for cen in item:
+            f.write("%s\n"%item)
     k = 0
     
     for c in clusters :
