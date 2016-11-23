@@ -30,7 +30,7 @@ def Test():
 #clusters = cluster.Test(1, 4, False) ## get a cluster   
 def Test1(x,y):
       
-     clusters = cluster.Test(1, 4, False) ## get a cluster
+     clusters = cluster.Test(4, 4, False) ## get a cluster
      features, labels = [], []
      for c in clusters :
         for p in c.points:

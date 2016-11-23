@@ -250,7 +250,7 @@ def plotSamples(samples, marker):
     for s in samples :
         x = s.getFeatures()[0]
         y = s.getFeatures()[1]
-        #pylab.annotate(s.getName(),xy = (x,y), xytext = (x+0.13, y-0.07), fontsize = 'x-large')
+        pylab.annotate(s.getName(),xy = (x,y), xytext = (x+0.13, y-0.07), fontsize = 'x-large')
         xVals.append(x)
         yVals.append(y)
     pylab.plot(xVals, yVals, marker)
@@ -323,7 +323,7 @@ def Test(numTrials, k, verbose = False) :
     #print(clusters[1].points[0])
     #print(clusters[2].points[0])
     #print(clusters[3].points[0])
-    ##pylab.show()
+    #pylab.show()
     return clusters
 
 def getGazedata(clusters):
