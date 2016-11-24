@@ -68,8 +68,9 @@ def Test1():
          liklihood[maxindex] += 1
          if max(liklihood) > 200 :
          # output mostlikely selection 
-            liklihood = [0.0, 0.0, 0.0, 0.0]
+            
             print (selection[liklihood.index(max(liklihood))])
+            liklihood = [0.0, 0.0, 0.0, 0.0]
 ##     print(type(probVec[0].index(max(probVec[0]))))
 
 
