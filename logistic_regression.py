@@ -30,7 +30,7 @@ def Test():
 def readCoor(fileName):
     samples = []
     i = 0
-    with open(fName,'r') as f :
+    with open(fileName,'r') as f :
         try :
             for line in f :
                 contents = line.split(',')
@@ -49,6 +49,7 @@ def Test1():
      selection =['a','b','c','d']
      clusters = cluster.Test(4, 4, False) ## get a cluster
      features, labels = [], []
+     liklihood = [0.0, 0.0, 0.0, 0.0]
      for c in clusters :
         for p in c.points:
             features.append(p.getFeatures())
@@ -60,27 +61,30 @@ def Test1():
      ##   print('For label', model.classes_[i], 'feature weights = ', model.coef_[i])
      
      #read a data file 
-     test = readCoor('calibration_log_1.txt')  ## a list of list of coordinates
-     probVec = model.predict_proba(test)  #@ a list of list of probabilities for each point
-     for i in probVec :
-         liklihood[i.index(max(i))] += 1
-     if max(liklihood) > 200 :
+     test = readCoor('testdata.txt')  ## a list of list of coordinates
+     probVec = model.predict_proba(test).tolist()  #@ a list of list of probabilities for each point
+     for i in range(len(probVec)) :
+         maxindex = probVec[i].index(max(probVec[i]))
+         liklihood[maxindex] += 1
+         if max(liklihood) > 200 :
          # output mostlikely selection 
-         print (selection[liklihood.index(max(liklihood))])
+            liklihood = [0.0, 0.0, 0.0, 0.0]
+            print (selection[liklihood.index(max(liklihood))])
+##     print(type(probVec[0].index(max(probVec[0]))))
 
 
 
     # print(x,y, 'prob =', model.predict_proba([[x, y]])[0])
-     data = K_nearest.getGazedata(clusters)
-     examples = K_nearest.buildGazeExamples(data)
-    ##training, testSet = dividesample(examples)
-     training = examples
-     a = K_nearest.Example(None,x,y)
-     testSet = []
-     testSet.append(a)
-     result, prob = K_nearest.kNearestClassify(training, testSet,65)
-    
-     print(str(result)+' '+ str(float(prob)))
+##     data = K_nearest.getGazedata(clusters)
+##     examples = K_nearest.buildGazeExamples(data)
+##    ##training, testSet = dividesample(examples)
+##     training = examples
+##     a = K_nearest.Example(None,x,y)
+##     testSet = []
+##     testSet.append(a)
+##     result, prob = K_nearest.kNearestClassify(training, testSet,65)
+##    
+##     print(str(result)+' '+ str(float(prob)))
      pylab.show()
  
 
