@@ -58,7 +58,7 @@ def Test1():
      liklihood = [0.0, 0.0, 0.0, 0.0]
      centroids = []
      for c in clusters :
-        centroids.append(c.getCentroid().getFeatures.tolist())
+        centroids.append(c.getCentroid().getFeatures().tolist())
         for p in c.points:
             features.append(p.getFeatures())
             labels.append(p.label)
@@ -72,7 +72,7 @@ def Test1():
      test = readCoor('testdata.txt')  ## a list of list of coordinates
      for point in test :
          for c in centroids :
-             if distance(point,centroids[c]) < 350 :
+             if distance(point,c) < 350 :
                  count += 1
      if count > 60:
          probVec = model.predict_proba(test).tolist()  #@ a list of list of probabilities for each point
