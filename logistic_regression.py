@@ -44,11 +44,17 @@ def readCoor(fileName):
         except ValueError :
             pass
     return samples 
-
+def distance(p1,p2):
+        #distance function is used to calculate the euclidean distance between two points
+        result = 0.0 
+        for i in range(2):
+            result = result + (p1[i]-p2[i])**2   #euclidean distance formular 
+        return result ** 0.5
 def Test1():
      selection =['a','b','c','d']
      clusters = cluster.Test(4, 4, False) ## get a cluster
      features, labels = [], []
+     count = 0
      liklihood = [0.0, 0.0, 0.0, 0.0]
      for c in clusters :
         for p in c.points:
@@ -62,15 +68,20 @@ def Test1():
      
      #read a data file 
      test = readCoor('testdata.txt')  ## a list of list of coordinates
-     probVec = model.predict_proba(test).tolist()  #@ a list of list of probabilities for each point
-     for i in range(len(probVec)) :
-         maxindex = probVec[i].index(max(probVec[i]))
-         liklihood[maxindex] += 1
-         if max(liklihood) > 200 :
+     for point in test :
+         for c in centroids :
+             if distance(point,centroids[c]) < 350 :
+                 count += 1
+     if count > 60:
+         probVec = model.predict_proba(test).tolist()  #@ a list of list of probabilities for each point
+         for i in range(len(probVec)) :
+               maxindex = probVec[i].index(max(probVec[i]))
+               liklihood[maxindex] += 1
+               if max(liklihood) > 120 :
          # output mostlikely selection 
             
-            print (selection[liklihood.index(max(liklihood))])
-            liklihood = [0.0, 0.0, 0.0, 0.0]
+                  print (selection[liklihood.index(max(liklihood))])
+                  liklihood = [0.0, 0.0, 0.0, 0.0]
 ##     print(type(probVec[0].index(max(probVec[0]))))
 
 
