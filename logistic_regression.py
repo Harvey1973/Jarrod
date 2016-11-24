@@ -56,7 +56,9 @@ def Test1():
      features, labels = [], []
      count = 0
      liklihood = [0.0, 0.0, 0.0, 0.0]
+     centroids = []
      for c in clusters :
+        centroids.append(c.getCentroid().getFeatures.tolist())
         for p in c.points:
             features.append(p.getFeatures())
             labels.append(p.label)
