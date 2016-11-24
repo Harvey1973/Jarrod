@@ -27,9 +27,26 @@ def Test():
     print('[0, 2] prob =', model.predict_proba([[0, 2, 2]])[0])
     print('[2, 0] prob =', model.predict_proba([[2, 0, 1]])[0])
     print('[2, 2] prob =', model.predict_proba([[2, 2, 1]])[0])
-#clusters = cluster.Test(1, 4, False) ## get a cluster   
-def Test1(x,y):
-      
+def readCoor(fileName):
+    samples = []
+    i = 0
+    with open(fName,'r') as f :
+        try :
+            for line in f :
+                contents = line.split(',')
+                x = contents[0]
+                y = contents[1]
+                
+                ##only read the first 2 columns of data ,ignore time stamp for now 
+                samples.append([float(x),float(y)])
+                i = i + 1
+                
+        except ValueError :
+            pass
+    return samples 
+
+def Test1():
+     selection =['a','b','c','d']
      clusters = cluster.Test(4, 4, False) ## get a cluster
      features, labels = [], []
      for c in clusters :
@@ -41,7 +58,19 @@ def Test1(x,y):
      model =sklearn.linear_model.LogisticRegression().fit(features, labels)
      ##for i in range(len(model.coef_)):
      ##   print('For label', model.classes_[i], 'feature weights = ', model.coef_[i])
-     print(x,y, 'prob =', model.predict_proba([[x, y]])[0])
+     
+     #read a data file 
+     test = readCoor('calibration_log_1.txt')  ## a list of list of coordinates
+     probVec = model.predict_proba(test)  #@ a list of list of probabilities for each point
+     for i in probVec :
+         liklihood[i.index(max(i))] += 1
+     if max(liklihood) > 200 :
+         # output mostlikely selection 
+         print (selection[liklihood.index(max(liklihood))])
+
+
+
+    # print(x,y, 'prob =', model.predict_proba([[x, y]])[0])
      data = K_nearest.getGazedata(clusters)
      examples = K_nearest.buildGazeExamples(data)
     ##training, testSet = dividesample(examples)
