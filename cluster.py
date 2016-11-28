@@ -295,7 +295,7 @@ def readGazeData(fName):
             pass
     return samples
 def Test(numTrials, k, verbose = False) :
-    points = readGazeData('combined_calibration_log.txt')
+    points = readGazeData('C:\Users\zhezhong\Desktop\Jarrod\Gaze_data_2\combined_calibration_log_l.txt')
     clusters = tryKmeans(points, k, numTrials, verbose)
     ## give each point in cluster a label [A, B, C,D]
     label = ['A', 'B', 'C', 'D']
