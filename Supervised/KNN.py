@@ -1,6 +1,9 @@
 import random
 ##import cluster
 import pylab
+
+global label_count
+label_count = [0, 0, 0, 0]
 class Example(object): 
     """this class is used to creat instances of a single point in the gaze data which will be used for traing"""
     def __init__(self,selection,x_coor,y_coor) :
@@ -42,7 +45,7 @@ def buildGazeExample(data):
         examples.append(a)
     return examples
 def dividesample(examples):
-    test_index = random.sample(range(len(examples)),len(examples)/5)
+    test_index = random.sample(range(len(examples)),len(examples)//100)
     trainingSet = []
     testSet = []
     for i in range (len(examples)):
@@ -75,6 +78,7 @@ def kNearestClassify(training, testSet, k):
     """assume training and testSet are both list of object examples , k is an integer , this method use findKnearest methond defined above to predict the category a given example will fall into,for testing purposes 
     , 20% of training data will be used for testing  """
     truePos, falsePos, trueNeg, falseNeg = 0.0, 0.0, 0.0, 0.0
+    
     for e in testSet :
         #print('labels for test points are')
         #print(e.getLabel())
@@ -101,8 +105,9 @@ def kNearestClassify(training, testSet, k):
                 ## if an example in nearest has the given label then numMatch plus 1 -----fourth example 
                 numMatch[3] += 1
         maxMatch = max(numMatch)
-        index_num = numMatch.index(maxMatch)
+        index_num = numMatch.index(maxMatch)  ## the index of max match 
         possible_label = labels[index_num]
+        label_count[index_num] += 1
         if possible_label == e.getLabel() :
               #guess label
               truePos += 1
@@ -127,6 +132,7 @@ def kNearestClassify(training, testSet, k):
          
     return truePos, falsePos, trueNeg, falseNeg 
     ##return possible_label , prob
+    ##return label_count
 
 ##The follwing methods will be used to evaluate the performance of the classifier 
 def accuracy(truePos, falsePos, trueNeg, falseNeg) :
@@ -166,6 +172,16 @@ def getStats(truePos, falsePos, trueNeg, falseNeg, verbose = True):
     return (accur, sens, spec, ppv)
 ## Test 
 def Test():
+    data = getGazedata('Jarrod.txt')
+    training = buildGazeExample(data)
+    while true :
+        testSet = Example('',x,y) #x,y will come from the real -time gaze data 
+        label_count = kNearestClassify(training,testSet)
+        for e in label_count :
+            if e > 60 :
+                select_charater = 1
+                label_count = [0, 0, 0, 0]
+def Test2():
     data = getGazedata('Jarrod.txt')
     examples = buildGazeExample(data)
     training, testSet = dividesample(examples)

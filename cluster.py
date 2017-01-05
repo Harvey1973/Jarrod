@@ -247,6 +247,7 @@ def genDistribution (xMean, xSD, yMean, ySD, n, namePrefix) :
     return samples
 def plotSamples(samples, marker):
     xVals, yVals =[], []
+    label = ['A','B','C','D']
     for s in samples :
         x = s.getFeatures()[0]
         y = s.getFeatures()[1]
@@ -254,6 +255,7 @@ def plotSamples(samples, marker):
         xVals.append(x)
         yVals.append(y)
     pylab.plot(xVals, yVals, marker)
+    pylab.legend()
 def contrivedTest(numTrials, k, verbose = False):
     xMean = 3 
     xSD = 1 
@@ -295,7 +297,7 @@ def readGazeData(fName):
             pass
     return samples
 def Test(numTrials, k, verbose = False) :
-    points = readGazeData('combined_calibration_log.txt')
+    points = readGazeData('static_1x4_letters_TAOW_1.txt')
     clusters = tryKmeans(points, k, numTrials, verbose)
     ## give each point in cluster a label [A, B, C,D]
     label = ['A', 'B', 'C', 'D']
